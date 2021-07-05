@@ -1,2 +1,85 @@
-# System_Engineer
-LDCC. System Engineer | LINUX | UNIX | Server Engineer
+# System_Engineer    
+
+LDCC. System Engineer | LINUX | UNIX | Infra Engineer | Server Engineer
+
+<details>
+<summary>목차 및 링크</summary>
+<div markdown="1">
+
+> [1. UNIX란?]()    
+> > [1) UNIX]()    
+> > [2) LINUX]()    
+> > [3) AIX]()    
+> 
+> [2. System Engineer란?]()    
+> > [1) System Engineer]()    
+> > [2) Server 및 Server Engineer]()    
+> > [3) Server Engineer 업무]()    
+
+</div>
+</details>
+
+-----
+
+## 1. UNIX란?
+
+### 1) UNIX
+
+ 1970년대 초반 벨 연구소에서 개발한 운영체제(OS)로, 현대적 운영체제의 근간이 되었다. SOLARIS, LINUX, AIX, HP-UX, macOS, Android, IOS 등 UNIX로부터 파생한 다양한 운영체제가 존재한다.    
+ UNIX 시스템 프로그래밍을 위해 만들어진 고급 언어인 C를 베이스로 하며, TCP/IP 기반 네트워크 기능을 처음 탑재함으로써 서버 시장의 절대 강자가 되었다.    
+
+### 2) LINUX
+
+  1990년대 초반 리누스 토발즈가 출시한 유닉스 계열(UNIX-like) 오픈 소스 운영체제이다. 대표적인 LINUX 배포판으로는 레드햇 엔터프라이즈 리눅스(Red Hat Enterprise Linux), 수세 리눅스 엔터프라이즈 서버(SUSE Linux Enterprise Server), 우분투(Ubuntu) 등이 존재한다.    
+ 오픈 소스로 재개발 및 재배포가 가능하다 보니 급속도로 발전하였으며, 월등한 플랫폼 이식성과 라이브러리 다양성을 갖게 되었다. 이러한 강점을 기반으로 LINUX는 현재 서버 운영체제 점유율 90%를 넘어섰다.    
+
+### 3) AIX
+
+ 1990년대 초반 IBM사에서 개발한 유닉스 계열 운영체제이다. 원래는 "Advanced IBM Unix"의 약어였으나, 현재는 "Advanced Interactive Executive"의 약어로 사용한다.    
+ IBM사는 주로 메인프레임을 비롯한 하드웨어 서버를 취급하는 업체였으나, AIX를 기반으로 운영체제, 소프트웨어, 서비스 등으로 분야를 넓혀 브랜드 급성장을 이루어냈다.    
+
+-----
+
+## 2. System Engineer란?
+
+### 1) System Engineer
+
+ 시스템 엔지니어는 기본적으로 서버와 네트워크를 다루며, 전산 자원 및 인프라를 관리하는 역할을 한다. 비슷한 용어로 인프라 엔지니어(Infra Engineer)가 존재한다.    
+ 크게 네트워크 관리자(Network Engineer), 서버 관리자(Server Engineer) 두 가지로 나눌 수 있으며, 둘을 동시에 담당하기도 한다. 또한, 최근에는 개발 역할까지 동시에 수행하는 DevOps 관리자도 새롭게 생겨났다.    
+ 본인은 서버 관리자를 담당하고 있기 때문에, 해당 내용을 중심으로 글을 작성할 예정이다.    
+
+### 2) Server 및 Server Engineer
+
+ 서버란 네트워크를 통해 클라이언트에게 서비스를 제공하는 프로그램 혹은 해당 프로그램이 동작하는 하드웨어를 뜻한다. 둘을 나눠서 소프트웨어 관점의 서버, 하드웨어 관점의 서버로 부른다.    
+ 서버 관리자는 주로 하드웨어 관점의 서버를 관리하는 엔지니어를 뜻하며, CPU, 메모리, 디스크, 스토리지, 네트워크, 보안 등을 관리한다. 소프트웨어 관점의 서버는 일반적으로 백엔드 개발자가 관리하며 웹서버의 서버 사이드 개발 및 운영을 수행한다.    
+
+### 3) Serve Engineer 업무
+ 
+ 서버 관리자는 위에서 말했듯이 CPU, 메모리, 디스크, 스토리지 등을 관리하는 리소스 관리 업무, IP, Port, 이중화 등을 관리하는 네트워크 관리 업무, 취약점 점검 및 조치, 보안 솔루션 도입 등을 관리하는 보안 관리 업무를 수행한다.
+ 서버 관리자 업무는 아래 "서버 관리자 업무"를 참고하면 되겠으며, 각 업무에 대한 메뉴얼을 작성하여 링크를 추가적으로 생성할 계획이다.    
+
+<details>
+<summary>서버 관리자 업무</summary>
+<div markdown="1">
+
+> 리소스 관리    
+> - CPU 점검    
+> - 메모리 점검    
+> - 디스크 및 스토리지 점검    
+> 
+> 네트워크 관리    
+> - IP 점검    
+> - Port 점검    
+> - 이중화 관리    
+> 
+> 보안 관리    
+> - 취약점 점검 및 조치 (계정 관리)    
+> - 취약점 점검 및 조치 (파일 및 디렉토리 관리)    
+> - 취약점 점검 및 조치 (서비스 관리)    
+> - 취약점 점검 및 조치 (패치 관리)    
+> - 취약점 점검 및 조치 (로그 관리)    
+> - 유해사이트 차단 솔루션    
+
+</div>
+</details>
+
