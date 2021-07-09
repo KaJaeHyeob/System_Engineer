@@ -1,77 +1,101 @@
-
 # 서버 취약점 점검 및 조치 (계정 관리)
 
-- 목차 및 링크
+<details>
+<summary>목차 및 링크</summary>
+<div markdown="1">
 
-    [1. 개요
-    2. PAM이란?](https://www.notion.so/2-UNIX-2828e1fbd15e49d7af0dc3487a308a7a)
-    [3](https://www.notion.so/SAP-Router-a67ab46047484563914e63dc7d4592f4)[. 점검 리스트 (중요도 : 상)](https://www.notion.so/2-UNIX-2828e1fbd15e49d7af0dc3487a308a7a)
-    [](https://www.notion.so/SAP-Router-a67ab46047484563914e63dc7d4592f4)    [1)](https://www.notion.so/2-UNIX-2828e1fbd15e49d7af0dc3487a308a7a) root 계정 원격 접속 제한
-        [2)](https://www.notion.so/2-UNIX-2828e1fbd15e49d7af0dc3487a308a7a) 패스워드 복잡성 및 계정 잠금 임계값 설정
-        3) 패스워드 파일 보호
-    4. 점검 리스트 (중요도 : 중)
-        1) 중복 UID 및 root 계정 이외 UID 0 제한
-    5. 점검 리스트 (중요도 : 하)
-        1) root 계정 su 제한
-        2) 불필요 계정 제거
-        3) 불필요 그룹 제거
-        4) 관리자 그룹 내 계정 제한
-        5) 사용자 shell 점검
-        6) 세션 타임아웃 설정
+> [1. 개요]()    
+> 
+> [2. PAM이란?]()    
+>
+> [3. 점검 리스트 (중요도 : 상)]()    
+> > [1) root 계정 원격 접속 제한]()    
+> > [2) 패스워드 복잡성 및 계정 잠금 임계값 설정]()    
+> > [3) 패스워드 파일 보호]()    
+> 
+> [4. 점검 리스트 (중요도 : 중)]()    
+> > [1) 중복 UID 및 root 계정 이외 UID 0 제한]()    
+> 
+> [5. 점검 리스트 (중요도 : 하)]()    
+> > [1) root 계정 su 제한]()    
+> > [2) 불필요 계정 제거]()    
+> > [3) 불필요 그룹 제거]()    
+> > [4) 관리자 그룹 내 계정 제한]()    
+> > [5) 사용자 shell 점검]()    
+> > [6) 세션 타임아웃 설정]()    
 
-## 1. 개요
+</div>
+</details>
 
- 보안적인 측면을 강화하기 위하여 악의적인 공격에 사용될 수 있는 서버 내 취약점들을 점검 및 조치하는 작업은 필수이다. 여러 영역에서 취약점 점검 및 조치가 필요하지만, 이번에는 계정 관리 영역을 살펴보고자 한다.
- 특히 LINUX의 계정 관리 영역에서 대부분 PAM이라는 것을 사용하기 때문에, 먼저 PAM이 무엇인지 알아본 후에 취약점 점검 및 조치 가이드에 말해보겠다.
+-----
 
-## 2. PAM이란?
+## 1. 개요    
 
-### 1) PAM
+ 보안 강화를 위하여 악의적인 공격에 사용될 수 있는 서버 내 취약점을 점검하고 조치하는 작업은 필수이다. 여러 영역에서 취약점 점검 및 조치가 필요하지만, 이번에는 계정 관리 영역을 살펴보고자 한다.    
+ 
+ 특히 LINUX의 계정 관리는 대부분 PAM이라는 것을 사용하기 때문에, 먼저 PAM이 무엇인지 알아본 후에 취약점 점검 및 조치 가이드에 말해보겠다.    
 
- PAM은 "Pluggable Authentication Module"의 약어로, LINUX에서 계정의 인증 및 접속에 대한 관리를 목적으로 사용하는 권한 검사 모듈이다.
+-----
+
+## 2. PAM이란?    
+
+### 1) PAM    
+
+ PAM은 "Pluggable Authentication Module"의 약어로, LINUX에서 계정의 인증 및 접속에 대한 관리를 목적으로 사용하는 권한 검사 모듈이다.    
 
 ### 2) PAM 구성
 
- PAM은 PAM 라이브러리 모듈과 해당 모듈을 사용하여 작성한 PAM 설정 파일로 구성된다.
- PAM 라이브러리 모듈들은 /lib/security/ 위치에 so 파일로 존재하며, 해당 모듈들을 사용하여 작성된 PAM 설정 파일들은 /etc/pam.d/ 위치에 txt 파일로 존재한다.
- PAM 설정 파일들은 su, passwd 등과 같은 명령어 실행 파일에서 참조하여 사용하며, 하나의 파일 안에는 여러 개의 PAM 설정도 가능하다. 검사는 위쪽에 위치한 설정부터 순차적으로 진행된다.
- 자세한 작성 방법은 "더보기"란에 작성해두겠다.
+ PAM은 PAM 라이브러리 모듈과 해당 모듈을 사용하여 작성한 PAM 설정 파일로 구성된다.    
+ 
+ PAM 라이브러리 모듈들은 /lib/security/ 위치에 so 파일로 존재하며, 해당 모듈들을 사용하여 작성된 PAM 설정 파일들은 /etc/pam.d/ 위치에 txt 파일로 존재한다. PAM 설정 파일들은 su, passwd 등과 같은 명령어 실행 파일에서 참조하여 사용하며, 하나의 설정 파일 안에는 여러 개의 PAM 설정도 가능하다. 검사는 위쪽에 작성된 설정부터 아래 방향으로 순차 진행된다.    
+ 
+ 자세한 PAM 설정 파일 작성 방법은 아래 "PAM 설정 파일 작성 방법"에 작성해두겠다.    
 
-- 더보기
+<details>
+<summary>PAM 설정 파일 작성 방법</summary>
+<div markdown="1">    
 
-     PAM 설정 형식 : Interface Control_flags Module_name Module_arguments
+PAM 설정 형식 : 
+```bash
+Interface Control_flags Module_name Module_arguments    
+```
 
-     Interface는 어떤 검사 영역에 대해 PAM 설정을 작성할 것인지를 의미하며, auth, account, password, session 네 가지가 존재한다.
-        - auth : 패스워드 및 OTP 인증 검사 등과 같은 인증절차 설정
-        - account :  계정 활성화 여부 및 접속 금지 시간대 검사 등과 같은 계정 접속 조건 설정
-        - password : 패스워드 설정 및 변경 조건 검사 등과 같은 패스워드 조건 설정
-        - session : 접속 로그 기록 여부 검사 등과 같은 계정 접속 전후 행동 조건 설정
+ Interface는 어떤 검사 영역에 대해 PAM 설정을 작성할 것인지를 의미하며, auth, account, password, session 네 가지가 존재한다.    
+- auth : 패스워드 및 OTP 인증 검사 등과 같은 인증절차 설정    
+- account :  계정 활성화 여부 및 접속 금지 시간대 검사 등과 같은 계정 접속 조건 설정    
+- password : 패스워드 설정 및 변경 조건 검사 등과 같은 패스워드 조건 설정    
+- session : 접속 로그 기록 여부 검사 등과 같은 계정 접속 전후 행동 조건 설정    
 
-     Control_flags는 작성한 PAM 설정에 대한 결과값을 어떻게 사용할 것인지를 의미하며, required, requisite, sufficient, optional, include 다섯 가지가 존재한다.
-        - required : 검사를 통과해야 하며, 리턴 없음 (실패 내역 확인 불가능)
-        - requisite : 검사를 통과해야 하며, 실패 시에 리턴 있음 (실패 내역 확인 가능)
-        - sufficient : 검사를 통과해야 하며, 항상 리턴 있음 (자신을 포함한 이전의 모든 검사를 통과했으면 통과, 이외는 실패)
-        - optional : 검사를 통과하지 않아도 되며, 참조 용도로 쓰임
-        - include : 다른 flag와 다르게 뒤에 PAM 라이브러리 모듈명이 아닌 PAM 설정 파일명이 오며, 해당 파일에 작성된 PAM 설정들을 포함시킴
+ Control_flags는 작성한 PAM 설정에 대한 결과값을 어떻게 사용할 것인지를 의미하며, required, requisite, sufficient, optional, include 다섯 가지가 존재한다.    
+- required : 검사를 통과해야 하며, 리턴 없음 (실패 항목 확인 불가능)    
+- requisite : 검사를 통과해야 하며, 실패 시에 리턴 있음 (실패 항목 확인 가능, 가장 먼저 실패한 항목 알려줌)    
+- sufficient : 검사를 통과해야 하며, 항상 리턴 있음 (자신을 포함한 이전의 모든 검사를 통과했으면 통과, 이외는 실패)    
+- optional : 검사를 통과하지 않아도 되며, 참조 용도로 쓰임    
+- include : 다른 flag와 다르게 뒤에 PAM 라이브러리 모듈명이 아닌 PAM 설정 파일명이 오며, 해당 파일에 작성된 PAM 설정들을 포함시킴    
 
-     Module_name은 PAM 설정에 사용할 PAM 라이브러리 모듈명을 의미하고, Module_arguments는 해당 모듈에 전달할 파라미터를 의미한다.
+ Module_name은 PAM 설정에 사용할 PAM 라이브러리 모듈명을 의미하고, Module_arguments는 해당 모듈에 전달할 파라미터를 의미한다.    
 
-### 3) PAM 주요 라이브러리 모듈
+</div>
+</details>
 
- PAM 주요 라이브러리 모듈은 아래와 같다.
-    - pam_securetty.so : root 계정 접속에 대하여 /etc/securetty 파일에 기록된 접속경로만 허용
-    - pam_lisfile.so : 임의의 검사에 대해 통과 또는 실패 처리시킬 계정 리스트 등록
-    - pam_nologin.so : /etc/nologin 파일이 존재하면 root 계정만 접속 허용
-    - pam_deny.so : 접속 거부
-    - pam_cracklib.so : 패스워드 설정 불가능한 단어 리스트 등록
-    - pam_wheel.so : wheel 그룹에 대하여 root 권한 부여 허용
-    - pam_tally.so & pam_tally2.so : 접속 시도에 대하여 일정 횟수 이상 실패 시 계정 잠금
+### 3) PAM 주요 라이브러리 모듈    
 
-## 3. 점검 리스트 (중요도 : 상)
+ PAM 주요 라이브러리 모듈은 아래와 같다.    
+- pam_securetty.so : root 계정 접속에 대하여 /etc/securetty 파일에 기록된 접속경로만 허용    
+- pam_lisfile.so : 임의의 검사에 대해 통과 또는 실패 처리시킬 계정 리스트 등록    
+- pam_nologin.so : /etc/nologin 파일이 존재하면 root 계정만 접속 허용    
+- pam_deny.so : 접속 거부    
+- pam_cracklib.so : 패스워드 설정 불가능한 단어 리스트 등록    
+- pam_wheel.so : wheel 그룹에 대하여 root 권한 부여 허용    
+- pam_tally.so & pam_tally2.so : 접속 시도에 대하여 일정 횟수 이상 실패 시 계정 잠금    
 
-### 1) root 계정 원격 접속 제한
+-----
 
- 점검 방법 : 
+## 3. 점검 리스트 (중요도 : 상)    
+
+### 1) root 계정 원격 접속 제한    
+
+ 점검 방법 :     
 
 ```bash
 #### LINUX
@@ -96,7 +120,7 @@ cat /etc/securetty
 ## 파일 존재 및 console 설정 확인
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX
@@ -121,9 +145,9 @@ vi /etc/securetty
 ## console 삽입
 ```
 
-### 2) 패스워드 복잡성 및 계정 잠금 임계값 설정
+### 2) 패스워드 복잡성 및 계정 잠금 임계값 설정    
 
- 점검 방법 : 
+ 점검 방법 :     
 
 ```bash
 #### LINUX
@@ -155,7 +179,7 @@ cat /etc/default/security
 ## 패스워드 복잡성 및 계정 잠금 임계값이 사내 정책과 부합하는지 확인
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX
@@ -240,9 +264,9 @@ vi /etc/default/security
 ## PASSWORD_MIN_SPECIAL_CHARS=1 삽입 (특수문자 최소 포함 개수 1)
 ```
 
-### 3) 패스워드 파일 보호
+### 3) 패스워드 파일 보호    
 
- 점검 방법 : 
+ 점검 방법 :     
 
 ```bash
 #### LINUX, SOLARIS
@@ -256,7 +280,7 @@ cat /etc/security/passwd
 # AIX는 쉐도우 패스워드 정책만 사용하므로 조치 필요 없음
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX, SOLARIS
@@ -270,11 +294,13 @@ pwconv
 # /etc/tsconvert -r2 : 일반 패스워드 정책 적용
 ```
 
-## 4. 점검 리스트 (중요도 : 중)
+-----
 
-### 1) 중복 UID 및 root 계정 이외 UID 0 제한
+## 4. 점검 리스트 (중요도 : 중)    
 
- 점검 방법 : 
+### 1) 중복 UID 및 root 계정 이외 UID 0 제한    
+
+ 점검 방법 :     
 
 ```bash
 #### LINUX, AIX, SOLARIS, HP-UX
@@ -284,7 +310,7 @@ cat /etc/passwd
 # 출력 형식 : user:password:UID:GID:full_name:home_directory:shell_type
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX, SOLARIS, HP-UX
@@ -296,11 +322,13 @@ chuser id=202 user02
 # chuser id=202 user02 : user02 계정의 UID를 202으로 변경
 ```
 
-## 5. 점검 리스트 (중요도 : 하)
+-----
 
-### 1) root 계정 su 제한
+## 5. 점검 리스트 (중요도 : 하)    
 
- 점검 방법 : 
+### 1) root 계정 su 제한    
+
+ 점검 방법 :     
 
 ```bash
 #### LINUX
@@ -330,7 +358,7 @@ cat /etc/default/security
 ## SU_ROOT_GROUP=wheel 설정 확인
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX
@@ -392,9 +420,9 @@ vi /etc/default/security
 ## SU_ROOT_GROUP=wheel 삽입
 ```
 
-### 2) 불필요 계정 제거
+### 2) 불필요 계정 제거    
 
- 점검 방법 : 
+ 점검 방법 :     
 
 ```bash
 #### LINUX
@@ -424,7 +452,7 @@ cat /var/log/authlog
 ## 의심 접속 계정 확인
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX, SOLARIS, HP-UX
@@ -436,9 +464,9 @@ rmuser user02
 # rmuser user02 : user02 계정 삭제
 ```
 
-### 3) 불필요 그룹 제거
+### 3) 불필요 그룹 제거    
 
- 점검 방법 : 
+ 점검 방법 :     
 
 ```bash
 #### LINUX
@@ -454,7 +482,7 @@ cat /etc/passwd
 ## 그룹 내 계정이 존재하지 않는 불필요 그룹 존재 확인
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX, SOLARIS, HP-UX
@@ -466,9 +494,9 @@ rmgroup group02
 # rmgroup group02 : group02 그룹 삭제
 ```
 
-### 4) 관리자 그룹 내 계정 제한
+### 4) 관리자 그룹 내 계정 제한    
 
- 점검 방법 : 
+ 점검 방법 :     
 
 ```bash
 #### LINUX, SOLARIS, HP-UX
@@ -480,7 +508,7 @@ cat /etc/group
 ## system 그룹 내 불필요 계정 존재 확인
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX, SOLARIS, HP-UX
@@ -492,9 +520,9 @@ vi /etc/group
 ## system 그룹 내 불필요 계정 삭제
 ```
 
-### 5) 사용자 shell 점검
+### 5) 사용자 shell 점검    
 
- 점검 방법 : 
+ 점검 방법 :     
 
 ```bash
 #### LINUX, AIX, SOLARIS, HP-UX
@@ -502,7 +530,7 @@ cat /etc/passwd
 ## 접속하지 않는 계정에 대해 shell_type 필드 /bin/false/ 또는 /sbin/nologin 설정 여부 확인
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX, AIX, SOLARIS, HP-UX
@@ -510,9 +538,9 @@ vi /etc/passwd
 ## 접속하지 않는 계정에 대해 shell_type 필드 /bin/false/ 또는 /sbin/nologin 설정
 ```
 
-### 6) 세션 타임아웃 설정
+### 6) 세션 타임아웃 설정    
 
- 점검 방법 : 
+ 점검 방법 :     
 
 ```bash
 #### LINUX, AIX, SOLARIS, HP-UX
@@ -527,7 +555,7 @@ cat /etc/csh.cshrc
 ## set autologout=10 설정 확인
 ```
 
- 조치 방법 : 
+ 조치 방법 :     
 
 ```bash
 #### LINUX, AIX, SOLARIS, HP-UX
