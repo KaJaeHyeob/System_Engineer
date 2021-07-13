@@ -474,7 +474,7 @@ cat /etc/group
 cat /etc/passwd
 cat /etc/gshadow
 ## 그룹 내 계정이 존재하지 않는 불필요 그룹 존재 확인
-# group 파일의 users 필드만 확인하면 안 됨 (group 파일엔 없지만 passwd 파일엔 있을 수 있음)
+# group 파일의 users 필드만 확인하면 안 됨 (group 파일엔 없고 passwd 파일에만 있을 수도 있음)
 
 #### AIX, SOLARIS, HP-UX
 cat /etc/group
