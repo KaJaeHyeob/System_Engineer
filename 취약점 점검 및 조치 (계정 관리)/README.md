@@ -528,6 +528,7 @@ vi /etc/group
 #### LINUX, AIX, SOLARIS, HP-UX
 cat /etc/passwd 
 ## 접속하지 않는 계정에 대해 shell_type 필드 /bin/false/ 또는 /sbin/nologin 설정 여부 확인
+# UID 100 이하 또는 60000 이상인 계정은 시스템 계정으로 일반적으로 로그인 불필요
 ```
 
  조치 방법 :     
